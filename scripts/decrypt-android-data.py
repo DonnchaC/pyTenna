@@ -1,6 +1,10 @@
 #!/usr/bin/env python2
 """
-GoTenna encryption algorithm for Android shared preferences and application data
+goTenna encryption algorithm for Android shared preferences, application
+and log data.
+
+The Android app stores its unique encryption key in the shared preferences
+directory.
 """
 import hashlib
 import base64
@@ -18,7 +22,7 @@ def pkcs5_unpad(s):
 
 class GoTennaAESCipher:
     """
-    Implement encryption and decryption of Gotenna files
+    Implement encryption and decryption of goTenna files
 
     The package name is name of the Android application package. This needs
     to be change if using the SDK as part of another application.
@@ -45,7 +49,7 @@ class GoTennaAESCipher:
 if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(description='Decrypted Gotenna file')
+    parser = argparse.ArgumentParser(description='Decrypted goTenna file')
 
     parser.add_argument('key', metavar='KEY', type=str, help='Base64 encoded key')
     parser.add_argument('file', metavar='FILE', type=str, help='File to decrypt')

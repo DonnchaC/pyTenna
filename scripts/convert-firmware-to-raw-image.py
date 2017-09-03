@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-The Gotenna firmware images are encoded in a modified form of the
+The goTenna firmware images are encoded in a modified form of the
 INTELHEX encoding which is used as the de facto standard encoding
 for microprocessor and microcontroller code.
 
-The Gotenna images have the same record header format but all data
+The goTenna images have the same record header format but all data
 is serialized as raw bytes instead of being hex encoded. This is
 presumably to reduce the number of bytes to transfer over the
 relatively slow BlueTooth LE connection during firmware upgrades.
@@ -17,7 +17,7 @@ import intelhex
 
 def gotenna_to_intelhex(firmware_data):
     """
-    Convert raw bytes in Gotenna firmware to the hex encoded INTELHEX
+    Convert raw bytes in goTenna firmware to the hex encoded INTELHEX
     """
     firmware_bytes = bytearray(firmware_data)
     output_bytes = bytearray()
@@ -57,7 +57,7 @@ def intelhex_to_raw(intelhex_data):
 
 if __name__ == "__main__":
     import argparse
-    parser = argparse.ArgumentParser(description='Convert Gotenna firmware file to raw binary image')
+    parser = argparse.ArgumentParser(description='Convert goTenna firmware file to raw binary image')
     parser.add_argument('firmware', metavar='FIRMWARE-FILE', type=str, help='Firmware file to convert')
     parser.add_argument('output', metavar='OUTPUT-FILE', type=str, help='Name of output firmware image')
     args = parser.parse_args()
