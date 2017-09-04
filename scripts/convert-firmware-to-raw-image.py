@@ -23,27 +23,21 @@ def gotenna_to_intelhex(firmware_data):
     output_bytes = bytearray()
 
     while firmware_bytes:
-        current_byte = firmware_bytes.pop(0)
+        header_byte = firmware_bytes.pop(0)
+        assert header_byte == 0x3a
+        output_bytes.append(header_byte)
 
-        if current_byte == 0x3a:
-            # ":" denotes the begining of a new record
-            output_bytes.append(current_byte)
+        # Read the rest of the record and hex encoded its data
+        record_length = firmware_bytes.pop(0)
+        record_bytes, firmware_bytes = firmware_bytes[:record_length+4], firmware_bytes[record_length+4:]
+        record_bytes.insert(0, record_length)
 
-        else:
-            # Read the rest of the record and hex encoded its data
-            record_length = current_byte
+        record_hex_bytes = bytearray(binascii.hexlify(record_bytes))
+        output_bytes.extend(record_hex_bytes)
 
-            # Read the rest of this record from the firmware bytes
-            record_bytes, firmware_bytes = firmware_bytes[:record_length+4], firmware_bytes[record_length+4:]
-
-            # Add length field to the record data and convert the record to hex
-            record_bytes.insert(0, record_length,)
-            record_hex_bytes = bytearray(binascii.hexlify(record_bytes))
-            output_bytes.extend(record_hex_bytes)
-
-            record_end = firmware_bytes.pop(0)
-            assert record_end == 0x0a
-            output_bytes.append(record_end)
+        record_end = firmware_bytes.pop(0)
+        assert record_end == 0x0a
+        output_bytes.append(record_end)
 
     return bytes(output_bytes)
 
